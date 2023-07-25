@@ -20,5 +20,6 @@ export default function Home() {
     <div style={{width: 358, height: 188, left: 17, top: 361, position: 'absolute', background: '#D9D9D9'}} />
     <div style={{width: 299, height: 102, left: 62, top: 656, position: 'absolute', background: '#D9D9D9'}} />
     </div>
+    //
   )
 }
