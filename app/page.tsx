@@ -1,16 +1,18 @@
 import Image from 'next/image'
+const Claude = require('claude-ai');
 
 // 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
+async function cx1() {
+  
 
-/*const Claude = require('claude-ai');
+  const claude = new Claude({
+    sessionKey: 'YOUR_SESSION_KEY'
+  });
 
-const claude = new Claude({
-  sessionKey: 'YOUR_SESSION_KEY'
-});
+  const conversation = await claude.startConversation('Hello Claude!');
 
-const conversation = await claude.startConversation('Hello Claude!');
-
-await conversation.sendMessage('How are you today?');*/
+  await conversation.sendMessage('How are you today?');
+}
 
 export default function Home() {
   return (
