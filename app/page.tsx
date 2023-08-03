@@ -1,5 +1,5 @@
 import Image from 'next/image'
-// import Claude from 'claude-ai';
+import Claude from 'claude-ai';
 
 // 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
 async function cx1() {
