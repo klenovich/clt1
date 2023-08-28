@@ -17,9 +17,9 @@ export default function MainPage() {
   }
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white' }}>
+    <div style={{ width: '100%', minHeight: '100vh', position: 'relative', background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       {/* Message History */}
-      <div style={{ width: '100%', height: '80%', position: 'absolute', background: '#F4F4F4', overflow: 'auto', padding: '20px' }}>
+      <div style={{ flex: 1, overflow: 'auto', padding: '20px', paddingBottom: '60px' }}>
         {messages.map((message, index) => (
           <div key={index} style={{ marginBottom: '10px', textAlign: message.type === 'user' ? 'right' : 'left' }}>
             <div style={{ background: message.type === 'user' ? '#007BFF' : '#D9D9D9', padding: '10px', borderRadius: '5px', display: 'inline-block' }}>
@@ -30,12 +30,12 @@ export default function MainPage() {
       </div>
       
       {/* User Input */}
-      <div style={{ width: '100%', height: '20%', position: 'absolute', background: '#D9D9D9', bottom: 0 }}>
-        <div style={{ padding: '10px' }}>
+      <div style={{ background: '#D9D9D9', padding: '20px', borderTop: '1px solid #999' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <input
             type="text"
             placeholder="Type your message..."
-            style={{ width: '80%', padding: '5px', borderRadius: '5px', marginRight: '10px' }}
+            style={{ flex: 1, padding: '5px', borderRadius: '5px', marginRight: '10px' }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 sendMessage(e.target.value);
@@ -43,22 +43,23 @@ export default function MainPage() {
               }
             }}
           />
-          <button onClick={() => sendMessage(document.querySelector('input').value)}>Send</button>
+          <button style={{ background: '#007BFF', color: 'white', border: 'none', borderRadius: '5px', padding: '8px 15px' }} onClick={() => sendMessage(document.querySelector('input').value)}>Send</button>
         </div>
-        <div style={{ padding: '10px' }}>
-          <label>Temperature: </label>
+        <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
+          <label style={{ marginRight: '10px' }}>Temperature: </label>
           <input
             type="number"
             step="0.1"
             value={temperature}
             onChange={(e) => setTemperature(parseFloat(e.target.value))}
+            style={{ width: '50px', padding: '5px', borderRadius: '5px' }}
           />
-          <br />
-          <label>Prompt: </label>
+          <span style={{ marginLeft: '20px', marginRight: '10px' }}>Prompt: </span>
           <input
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
+            style={{ flex: 1, padding: '5px', borderRadius: '5px' }}
           />
         </div>
       </div>
