@@ -1,19 +1,29 @@
 // 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
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import AI from 'claude-ai';
 
 export default function MainPage() {
   const [messages, setMessages] = useState([]);
   const [temperature, setTemperature] = useState(0.7);
   const [prompt, setPrompt] = useState('Hello, Claude!');
+  const [userName, setUserName] = useState('');
+  const messageEndRef = useRef(null);
+
+  useEffect(() => {
+    messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   async function sendMessage(text) {
-    setMessages([...messages, { type: 'user', text }]);
+    setMessages([...messages, { type: 'user', text, timestamp: new Date() }]);
     const aiInstance = new AI({ sessionKey: 'YOUR_SESSION_KEY' });
     const chat = await aiInstance.startConversation(prompt);
     const response = await chat.sendMessage(text, { temperature });
-    setMessages([...messages, { type: 'ai', text: response.message }]);
+    setMessages([...messages, { type: 'ai', text: response.message, timestamp: new Date() }]);
+  }
+
+  function clearChat() {
+    setMessages([]);
   }
 
   return (
@@ -23,10 +33,15 @@ export default function MainPage() {
         {messages.map((message, index) => (
           <div key={index} style={{ marginBottom: '10px', textAlign: message.type === 'user' ? 'right' : 'left' }}>
             <div style={{ background: message.type === 'user' ? '#007BFF' : '#D9D9D9', padding: '10px', borderRadius: '5px', display: 'inline-block' }}>
+              {userName && message.type === 'user' && <span style={{ color: 'gray', fontSize: '12px' }}>{userName}</span>}
               {message.text}
+            </div>
+            <div style={{ fontSize: '10px', textAlign: message.type === 'user' ? 'right' : 'left', color: 'gray' }}>
+              {new Date(message.timestamp).toLocaleTimeString()}
             </div>
           </div>
         ))}
+        <div ref={messageEndRef} />
       </div>
       
       {/* User Input */}
@@ -61,6 +76,16 @@ export default function MainPage() {
             onChange={(e) => setPrompt(e.target.value)}
             style={{ flex: 1, padding: '5px', borderRadius: '5px' }}
           />
+          <span style={{ marginLeft: '20px', marginRight: '10px' }}>Your Name: </span>
+          <input
+            type="text"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            style={{ flex: 1, padding: '5px', borderRadius: '5px' }}
+          />
+        </div>
+        <div style={{ marginTop: '10px' }}>
+          <button onClick={clearChat} style={{ background: '#FF4500', color: 'white', border: 'none', borderRadius: '5px', padding: '5px 10px' }}>Clear Chat</button>
         </div>
       </div>
     </div>
