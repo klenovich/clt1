@@ -1,18 +1,19 @@
 // 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
 
-// Import necessary modules
-import Picture from 'next/image'
+import React, { useEffect } from 'react';
+import Picture from 'next/image';
 import AI from 'claude-ai';
 
-// Function for starting a conversation with Claude
-async function startConversation() {
-  const aiInstance = new AI({ sessionKey: 'YOUR_SESSION_KEY' });
-  const chat = await aiInstance.startConversation('Hello Claude!');
-  await chat.sendMessage('How are you today?');
-}
-
-// Default function to establish the webpage layout
 export default function MainPage() {
+  useEffect(() => {
+    async function startConversation() {
+      const aiInstance = new AI({ sessionKey: 'YOUR_SESSION_KEY' });
+      const chat = await aiInstance.startConversation('Hello Claude!');
+      await chat.sendMessage('How are you today?');
+    }
+    startConversation();
+  }, []);
+
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white' }}>
       {/* Header */}
@@ -56,5 +57,5 @@ export default function MainPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
